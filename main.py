@@ -42,7 +42,7 @@ def main():
         elif choice == 4:
             show_all_ham(cursor, mariadb_connection)
         elif choice == 5:
-            print("Menu 5 has been selected")
+            print("Exiting from software, bye!")
             loop = False  # This will make the while loop to end as not value of loop is set to False
         else:
             # Any integer inputs other than values 1-5 we print an error message
@@ -70,12 +70,12 @@ def new_ham(cursor, connection):
 
     # Print datas for confimation
     print("New HAM operator:\n")
-    print("ID:\t" + id)
-    print("Name:\t" + name)
-    print("Loc:\t" + location)
-    print("Comments:\t" + comments)
 
-    choice = input("\n Confirm the data (y/n)? ")
+    x = PrettyTable(["ID", "Name", "Location", "Comments"])
+    x.add_row([id, name, location, comments])
+    print(x)
+
+    choice = input("\nConfirm the data (y/n)? ")
     if choice == "y":
         cursor.execute("INSERT INTO Operators (ID, name, loc, comments, added) VALUES (%s,%s,%s,%s,%s)",
             (id, name, location, comments, time.strftime('%Y-%m-%d %H:%M:%S')))
