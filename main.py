@@ -36,11 +36,11 @@ def main():
         if choice == 1:
             new_ham(cursor, mariadb_connection)
         elif choice == 2:
-            search_ham(cursor, mariadb_connection)
+            search_ham(cursor)
         elif choice == 3:
             delete_operator(cursor, mariadb_connection)
         elif choice == 4:
-            show_all_ham(cursor, mariadb_connection)
+            show_all_ham(cursor)
         elif choice == 5:
             print("Exiting from software, bye!")
             loop = False  # This will make the while loop to end as not value of loop is set to False
@@ -82,11 +82,22 @@ def new_ham(cursor, connection):
         connection.commit()
 
 
-def search_ham(cursor, mariadb_connection):
-    pass
+def search_ham(cursor):
+    id = input("ID of operator to be SEARCH: ").upper()
+    cursor.execute("SELECT * FROM Operators WHERE ID='" + id + "'")
+    results = cursor.fetchall()
+
+    x = PrettyTable(["ID", "Name", "Location", "Comments", "Added"])
+
+    for line in results:
+        x.add_row(line)
+
+    print(x)
+
+    input("\nClose? ")
 
 
-def show_all_ham(cursor, mariadb_connection):
+def show_all_ham(cursor):
     cursor.execute("SELECT * FROM Operators ORDER BY Added")
     results = cursor.fetchall()
 
@@ -97,7 +108,7 @@ def show_all_ham(cursor, mariadb_connection):
 
     print(x)
 
-    input("\n Close? ")
+    input("\nClose? ")
 
 
 def delete_operator(cursor, connection):
@@ -106,9 +117,9 @@ def delete_operator(cursor, connection):
     print("Are you sure to delete:\n")
     print("ID:\t" + id)
 
-    choice = input("\n Confirm (y/n)? ")
+    choice = input("\nConfirm (y/n)? ")
     if choice == "y":
-        cursor.execute("DELETE FROM Operators WHERE ID=%s", id)
+        cursor.execute("DELETE FROM Operators WHERE ID='" + id + "'")
         connection.commit()
 
 
