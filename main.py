@@ -31,7 +31,12 @@ def main():
 
     while loop:
         print_menu()
-        choice = int(input("Enter your choice [1-5]: "))
+        choice = input("Enter your choice [1-5]: ")
+
+        if choice != '' and choice.isdecimal():
+            choice = int(choice)
+        else:
+            continue
 
         if choice == 1:
             new_ham(cursor, mariadb_connection)
@@ -72,6 +77,10 @@ def new_ham(cursor, connection):
     print("New HAM operator:\n")
 
     x = PrettyTable(["ID", "Name", "Location", "Comments"])
+    x.align["ID"] = "l"
+    x.align["Name"] = "l"
+    x.align["Location"] = "l"
+    x.align["Comments"] = "l"
     x.add_row([id, name, location, comments])
     print(x)
 
@@ -89,6 +98,11 @@ def search_ham(cursor):
 
     x = PrettyTable(["ID", "Name", "Location", "Comments", "Added"])
 
+    x.align["ID"] = "l"
+    x.align["Name"] = "l"
+    x.align["Location"] = "l"
+    x.align["Comments"] = "l"
+
     for line in results:
         x.add_row(line)
 
@@ -102,6 +116,11 @@ def show_all_ham(cursor):
     results = cursor.fetchall()
 
     x = PrettyTable(["ID", "Name", "Location", "Comments", "Added"])
+
+    x.align["ID"] = "l"
+    x.align["Name"] = "l"
+    x.align["Location"] = "l"
+    x.align["Comments"] = "l"
 
     for line in results:
         x.add_row(line)
